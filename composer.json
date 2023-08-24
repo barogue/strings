@@ -1,0 +1,34 @@
+{
+    "name": "barouge/strings",
+    "description": "A library that extends PHP's native string functionality",
+    "type": "library",
+    "license": "mit",
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "keywords": [
+        "php",
+        "barouge",
+        "strings"
+    ],
+    "require": {
+        "php": ">=8.1"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "*",
+        "phan/phan": "*",
+        "phpunit/phpunit": "*",
+        "phpbench/phpbench": "*",
+        "symfony/var-dumper": "*"
+    },
+    "autoload": {
+        "files": [
+            "src/strings.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Barogue\\Strings\\Benchmarks\\": "benchmarks/",
+            "Barogue\\Strings\\Tests\\": "tests/"
+        }
+    }
+}
