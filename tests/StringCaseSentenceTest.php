@@ -2,6 +2,7 @@
 
 namespace Barogue\Strings\Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -60,6 +61,7 @@ class StringCaseSentenceTest extends TestCase
      * @param string $from
      * @param string $to
      */
+    #[DataProvider('provideCases')]
     public function testCases($from, $to)
     {
         $this->assertSame($to, str_case_sentence($from));

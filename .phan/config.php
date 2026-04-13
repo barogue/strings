@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'minimum_target_php_version' => '8.1',
-    'target_php_version' => '8.1',
+    'minimum_target_php_version' => '7.2',
+    'target_php_version' => '7.2',
     'directory_list' => [
         'src'
     ],

@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-version: ['8.1', '8.2']
+        php-version: ['7.2', '7.3', '7.4', '8.0', '8.1', '8.2', '8.3', '8.4']
     steps:
 
       # Set up the correct PHP version
@@ -20,19 +20,6 @@ jobs:
         with:
           php-version: ${{ matrix.php-version }}
           coverage: xdebug
-
-      # Restore the composer cache folders to speed up the composer update
-      - name: Get Composer Cache Directory
-        id: composer-cache
-        run: |
-          echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-      - uses: actions/cache@v2
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-php-${{ matrix.php-version }}-composer-${{ hashFiles('**/composer.json') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
 
       # Check out the code
       - name: Checkout code
@@ -44,11 +31,18 @@ jobs:
 
       # Run unit tests with code coverage
       - name: Run phpunit
-        run: vendor/bin/phpunit --coverage-clover=coverage/coverage.xml
+        if: ${{ matrix.php-version <= '8.0' }}
+        run: vendor/bin/phpunit --configuration phpunit.xml --coverage-clover=coverage/coverage.xml
+
+      # Run unit tests with code coverage
+      - name: Run phpunit
+        if: ${{ matrix.php-version > '8.0' }}
+        run: vendor/bin/phpunit --configuration phpunit.10.xml --coverage-clover=coverage/coverage.xml
 
       # Upload the code coverage artifact
       - name: Upload code coverage artifact
-        uses: actions/upload-artifact@v1
+        if: ${{ matrix.php-version == '7.2' }}
+        uses: actions/upload-artifact@v4
         with:
           name: coverage
           path: coverage/coverage.xml
@@ -61,19 +55,6 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.1'
-
-      # Restore the composer cache folders to speed up the composer update
-      - name: Get Composer Cache Directory
-        id: composer-cache
-        run: |
-          echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-      - uses: actions/cache@v2
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-php-8.1-composer-${{ hashFiles('**/composer.json') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
 
       # Check out the code
       - name: Checkout code
@@ -102,7 +83,7 @@ jobs:
 
       # Download the coverage artifact
       - name: Download code coverage artifact
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v4
         with:
           name: coverage
 

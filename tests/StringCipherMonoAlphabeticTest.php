@@ -2,6 +2,7 @@
 
 namespace Barogue\Strings\Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -44,6 +45,7 @@ class StringCipherMonoAlphabeticTest extends TestCase
      * @param string $beta
      * @param string $output
      */
+    #[DataProvider('provideMonoAlphabetic')]
     public function testMonoAlphabetic($input, $alpha, $beta, $output)
     {
         $this->assertSame($output, str_cipher_mono_alphabetic($input, $alpha, $beta));
@@ -57,6 +59,7 @@ class StringCipherMonoAlphabeticTest extends TestCase
      * @param string $beta
      * @param string $input
      */
+    #[DataProvider('provideMonoAlphabetic')]
     public function testMonoAlphabeticReverse($output, $alpha, $beta, $input)
     {
         $this->assertSame($output, str_cipher_mono_alphabetic($input, $beta, $alpha));

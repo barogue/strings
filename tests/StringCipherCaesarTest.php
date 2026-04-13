@@ -2,6 +2,7 @@
 
 namespace Barogue\Strings\Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -61,6 +62,7 @@ class StringCipherCaesarTest extends TestCase
      * @param int $shift
      * @param string $output
      */
+    #[DataProvider('provideCaesar')]
     public function testCaesar($input, $shift, $output)
     {
         $this->assertSame($output, str_cipher_caesar($input, $shift));
@@ -73,6 +75,7 @@ class StringCipherCaesarTest extends TestCase
      * @param int $shift
      * @param string $input
      */
+    #[DataProvider('provideCaesar')]
     public function testCaesarReverse($output, $shift, $input)
     {
         $this->assertSame($output, str_cipher_caesar_reverse($input, $shift));
